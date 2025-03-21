@@ -8,7 +8,7 @@ const Authorization = () => {
         <h2 className="login__title">Авторизация</h2>
       </header>
       <div className="login__wrapper">
-        <form className="login__form" action="http://f0769682.xsph.ru/authorization.php" method="POST" accept-charset="utf-8">
+        <form className="login__form" action="http://f0769682.xsph.ru/authorization.php" method="POST" acceptCharset="utf-8">
           <label className="login__label" htmlFor="email">
             E-mail
             <input className="login__input" type="email" placeholder="example@domain.xyz" name="email" required/>

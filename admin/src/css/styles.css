@@ -378,6 +378,7 @@ input[type='radio'], input[type='submit'], button, .conf-step__header, select {
   flex-wrap: wrap;
   align-items: flex-start; }
   .conf-step__movies .conf-step__movie {
+    list-style-type: none;
     position: relative;
     width: calc((100% - 30px) / 3);
     min-height: 52px;
@@ -422,8 +423,13 @@ input[type='radio'], input[type='submit'], button, .conf-step__header, select {
     color: rgba(0, 0, 0, 0.7); }
 
 .conf-step__seances-hall {
+  list-style-type: none;
   position: relative;
   margin: 35px; }
+
+  .conf-step__seances-hall li {
+    margin-top: 33px;
+  }
 
 .conf-step__seances-title {
   font-weight: 500;
@@ -439,6 +445,7 @@ input[type='radio'], input[type='submit'], button, .conf-step__header, select {
   width: calc(1440px * 0.5); }
 
 .conf-step__seances-movie {
+  cursor: pointer;
   position: absolute;
   height: 40px;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -502,7 +509,11 @@ input[type='radio'], input[type='submit'], button, .conf-step__header, select {
   .popup.active {
     display: block;
     background: rgba(0, 0, 0, 0.7);
-    animation: 0.5s ease-out 0s 1 darken; }
+    animation: 0.5s ease-out 0s 1 darken; 
+    top: 0px;
+    left: 0px;
+    }
+   
     .popup.active .popup__content {
       top: 100px;
       animation: 0.5s ease-out 0s 1 slideFromTop; }
