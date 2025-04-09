@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import close from '../../i/close.png';
+import { useFilms } from '../contexts/FilmsContext';
 
 const AddFilm = ({isOpenFilm, isCloseFilm, onAddFilm}) => {
   const [filmName, setFilmName] = useState('');
   const [filmDuration, setFilmDuration] = useState('');
   const [filmDescription, setFilmDescription] = useState('');
   const [filmCountry, setFilmCountry] = useState('');
-  
+  const { handleAddFilm} = useFilms();
   if (!isOpenFilm) return null; 
 
   const handleSubmit = async (e) => {
@@ -18,7 +19,7 @@ const AddFilm = ({isOpenFilm, isCloseFilm, onAddFilm}) => {
         description: filmDescription,
         country: filmCountry,
       };
-      await onAddFilm(newFilm); // Отправляем данные на сервер
+      await handleAddFilm(newFilm); // Отправляем данные на сервер
       setFilmName(''); 
       setFilmDuration(''); 
       setFilmDescription(''); 

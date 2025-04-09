@@ -23,7 +23,7 @@ export const SeanceProvider = ({children}) => {
   }, []);
 
   // Добавляем новый сеанс
-  const handleAddSeance= async (newSeance) => {
+  const handleAddSeance = async (newSeance) => {
     const response = await fetch('http://localhost:3001/api/add_seance', { 
       method: 'POST',
       headers: {

@@ -22,7 +22,7 @@ const SessionGrid = () => {
 
   // Получаем данные из контекста
   const { halls } = useHalls(); // Контекст для залов
-  const { films, handleAddFilm, handleDeleteClick } = useFilms(); // Контекст для фильмов
+  const { films, handleDeleteClick } = useFilms(); // Контекст для фильмов
   const { seances, handleAddSeance, handleDeleteSeanceClick, getFilmColor, calculateSeanceStyle } = useSeance(); // Контекст для сеанса
 
 
@@ -60,7 +60,8 @@ const SessionGrid = () => {
           <AddFilm 
             isOpenFilm={modalIsOpenFilm} 
             isCloseFilm={closeModalIsFilm}
-            onAddFilm={handleAddFilm} />
+            // onAddFilm={handleAddFilm}
+             />
         </p>
         <ul className="conf-step__movies">
           {

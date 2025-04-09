@@ -3,3 +3,6 @@
  - установить зависимости  через npm install;
  - для запуска папки client команда: npm run start-client, а для admin ‒ npm run start-admin;
  - при запуске одной из команд, будет запущен сразу же и server из папки backend.
+2. Данные для входа в административную панель:
+   - E-mail: admin@example.com
+   - Пароль: admin123

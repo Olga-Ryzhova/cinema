@@ -28,7 +28,12 @@ body {
 
 input[type='radio'], input[type='submit'], button, .conf-step__header, select {
   cursor: pointer; }
-
+  
+.error-message {
+  margin-top: 5px;
+  color: red;
+  font-size: 16px;
+}
 .text-center {
   text-align: center; }
 

@@ -1,19 +1,27 @@
 import close from '../../i/close.png';
 import { useHalls } from '../contexts/HallsContext';
 import { useFilms } from '../contexts/FilmsContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSeance } from '../contexts/SeanceContext';
 
 const AddSeance = ({isOpenSeance, isCloseSeance, modalSeance}) => {
+
+  const { halls } = useHalls(); // Контект холла
+  const { films } = useFilms(); // контекст фильмов
+  const { handleAddSeance } = useSeance();  // контекст сеанса
 
   const [selectedHall, setSelectedHall] = useState('');
   const [selectedFilm, setSelectedFilm] = useState('');
   const [startTime, setStartTime] = useState('');
 
-  const { halls } = useHalls(); // Контект холла
-  const { films } = useFilms(); // контекст фильмов
-  const { handleAddSeance } = useSeance(); 
-
+  useEffect(() => {
+    if (halls.length > 0) {
+      setSelectedHall(halls[0].id);
+    }
+    if (films.length > 0) {
+      setSelectedFilm(films[0].id);
+    }
+  }, [halls, films]);
 
   if (!isOpenSeance) return null; 
 
