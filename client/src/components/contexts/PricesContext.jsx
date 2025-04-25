@@ -15,14 +15,7 @@ export const PricesProvider = ({children}) => {
       throw new Error('Error fetching prices');
     }
     const data = await response.json();
-    
-    // Преобразуем строку обратно в массив
-    data.forEach(hall => {
-      if (hall.seating) {
-        hall.seating = JSON.parse(hall.seating); 
-      }
-    });
-  
+      
     setPrices(data); // Обновляем состояние залов
   };
     // Загружаем данные 
@@ -30,30 +23,9 @@ export const PricesProvider = ({children}) => {
       fetchPrices();
     }, []);
 
-  // Добавляем новые цены
-  const handleAddPrice = async (newPrice) => {
-    const response = await fetch('http://localhost:3001/api/add_price', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        hall_id: newPrice.hall_id,
-        usual_armchair: newPrice.usual_armchair,
-        vip_armchair: newPrice.vip_armchair,
-      }),
-    });
-   
-    if (!response.ok) {
-      throw new Error('Error adding price');
-    }
-  
-    const data = await response.json();
-    setPrices(prevPrices => [...prevPrices, data]); // Добавляем новую цену 
-  }
 
   return (
-    <PricesContext.Provider value={{ prices, handleAddPrice }}>
+    <PricesContext.Provider value={{ prices, fetchPrices }}>
       {children}
     </PricesContext.Provider>
   ); 

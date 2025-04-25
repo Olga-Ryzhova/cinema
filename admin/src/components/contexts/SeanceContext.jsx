@@ -24,26 +24,28 @@ export const SeanceProvider = ({children}) => {
 
   // Добавляем новый сеанс
   const handleAddSeance = async (newSeance) => {
-    const response = await fetch('http://localhost:3001/api/add_seance', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        hall_id: newSeance.hall_id,
-        film_id: newSeance.film_id,
-        start_time: newSeance.start_time,
-      }),
-    });
-   
-    if (!response.ok) {
-      throw new Error('Error adding seance');
-    }
+    try {
+      const response = await fetch('http://localhost:3001/api/add_seance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newSeance),
+      });
   
-    const data = await response.json();
-    setSeances(prevSeances => [...prevSeances, data]); // Добавляем новый фильм в список
+      if (!response.ok) {
+        const errorData = await response.json();
+        return { success: false, error: errorData.error || 'Ошибка добавления сеанса' };
+      }
+  
+      const data = await response.json();
+      setSeances(prev => [...prev, data]);
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: 'Ошибка сети или сервера' };
+    }
   };
-
+  
   
   // Удаляем фильм
   const handleDeleteSeanceClick = async (id) => {
@@ -82,7 +84,7 @@ export const SeanceProvider = ({children}) => {
   };
   
   return (
-    <SeanceContext.Provider value={{ seances, handleAddSeance, handleDeleteSeanceClick, getFilmColor, calculateSeanceStyle}}>
+    <SeanceContext.Provider value={{ seances, fetchSeance, handleAddSeance, handleDeleteSeanceClick, getFilmColor, calculateSeanceStyle}}>
       {children}
     </SeanceContext.Provider>
   ); 

@@ -9,7 +9,7 @@ import HeaderToggle from "../headerToggle/HeaderToggle";
 
 
 const ControlPage = () => {
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSections, setActiveSections] = useState([]);
 
   const sections = [
     {title: 'Конфигурация залов', content: <HallManagement/>},
@@ -20,7 +20,15 @@ const ControlPage = () => {
   ]
 
   const toggleSection = (index) => {
-    setActiveSection(activeSection === index ? null : index);
+    setActiveSections(prevActiveSections => {
+      if (prevActiveSections.includes(index)) {
+        // Если секция уже открыта, закрыть её
+        return prevActiveSections.filter(i => i !== index);
+      } else {
+        // Если секция не открыта, открыть её
+        return [...prevActiveSections, index];
+      }
+    });
   }
 
   return (
@@ -29,16 +37,16 @@ const ControlPage = () => {
         sections.map((section, index) => (
           <div key={index}>
             <HeaderToggle 
-              key={index}
               title={section.title}
-              isOpen={activeSection === index}  
-              onToggle={() => toggleSection(index)}/>
-              {activeSection === index && section.content}
+              isOpen={activeSections.includes(index)}  
+              onToggle={() => toggleSection(index)}
+            />
+            {activeSections.includes(index) && section.content}
           </div>
         ))
       }
     </main>
-  )
+  );
 }
 
 export default ControlPage;

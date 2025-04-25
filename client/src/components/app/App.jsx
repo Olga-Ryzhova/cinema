@@ -5,21 +5,33 @@ import MainPage from "../pages/MainPage";
 import HallPage from "../pages/HallPage";
 import PaymentPage from "../pages/PaymentPage";
 import TicketPage from "../pages/TicketPage";
-import { useEffect, useState } from 'react';
-
+import { FilmsProvider } from '../contexts/FilmsContext';
+import { SeanceProvider } from '../contexts/SeanceContext';
+import { HallsProvider } from '../contexts/HallsContext';
+import { HallsControlProvider } from '../contexts/HallsControlContext';
+import { PricesProvider } from '../contexts/PricesContext';
 function App() {
-
 
   return (
     <Router basename="/">
-      <AppHeader />
-      <Routes>
-        <Route path="/cinema" element={<MainPage />} />
-        <Route path="/hall" element={<HallPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/ticket" element={<TicketPage />} />
-        <Route path="/" element={<MainPage />} />
-      </Routes>
+      <HallsProvider>
+        <FilmsProvider>
+          <SeanceProvider>
+            <PricesProvider>
+              <HallsControlProvider>
+                <AppHeader />
+                <Routes>
+                  <Route path="/cinema" element={<MainPage />} />
+                  <Route path="/hall/:film/:hallName/:seance" element={<HallPage />} />
+                  <Route path="/payment/:film/:hallName/:seance/:selectedSeats/" element={<PaymentPage />} />
+                  <Route path="/ticket/:film/:hallName/:seance/:rows/:seats" element={<TicketPage />} />
+                  <Route path="/" element={<MainPage />} />
+                </Routes>
+              </HallsControlProvider>
+            </PricesProvider>
+          </SeanceProvider>
+        </FilmsProvider>
+      </HallsProvider>
     </Router>
   )
 }

@@ -8,11 +8,13 @@ const AddSeance = ({isOpenSeance, isCloseSeance, modalSeance}) => {
 
   const { halls } = useHalls(); // Контект холла
   const { films } = useFilms(); // контекст фильмов
-  const { handleAddSeance } = useSeance();  // контекст сеанса
+  const { fetchSeance, handleAddSeance } = useSeance();  // контекст сеанса
 
   const [selectedHall, setSelectedHall] = useState('');
   const [selectedFilm, setSelectedFilm] = useState('');
   const [startTime, setStartTime] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');  //ошибка при пересечении сеанса
 
   useEffect(() => {
     if (halls.length > 0) {
@@ -25,15 +27,11 @@ const AddSeance = ({isOpenSeance, isCloseSeance, modalSeance}) => {
 
   if (!isOpenSeance) return null; 
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Форма отправлена'); 
 
-    console.log('Данные для добавления сеанса:', {
-      hall_id: selectedHall,
-      film_id: selectedFilm,
-      start_time: startTime
-    });  
+    setErrorMessage(''); // убираем ошибку
 
     if (selectedHall && selectedFilm && startTime) {
       const newSeance = {
@@ -41,13 +39,19 @@ const AddSeance = ({isOpenSeance, isCloseSeance, modalSeance}) => {
         film_id: selectedFilm,
         start_time: startTime
       };
-      console.log('Сеанс, который будет отправлен:', newSeance);
-      // Вызываем функцию добавления сеанса
-      await handleAddSeance(newSeance);
+
+      const result = await handleAddSeance(newSeance);
+
+      if (!result.success) {
+        setErrorMessage(result.error); // показываем ошибку
+        return;
+      }
+
+      await fetchSeance();
       setSelectedHall('');
       setSelectedFilm('');
       setStartTime('');
-      isCloseSeance(); // Закрываем модальное окно
+      isCloseSeance();
     }
   };
     
@@ -104,7 +108,11 @@ const AddSeance = ({isOpenSeance, isCloseSeance, modalSeance}) => {
                  value={startTime}
                  onChange={(e) => setStartTime(e.target.value)}/>
               </label>
-
+              {errorMessage && (
+                <div style={{ color: 'red', marginTop: '10px', textAlign: 'center', fontSize: '16px' }}>
+                  {errorMessage}
+                </div>
+              )}
               <div className="conf-step__buttons text-center">
                 <input type="submit" value="Добавить" className="conf-step__button conf-step__button-accent" data-event="seance_add" />
                 <button className="conf-step__button conf-step__button-regular" type="button" onClick={isCloseSeance}>Отменить</button>

@@ -30,32 +30,8 @@ export const HallsControlProvider = ({children}) => {
       fetchSeats();
     }, []);
     
-
-  // Добавляем места
-  const handleAddSeate = async (newSeats) => {
-    const response = await fetch('http://localhost:3001/api/add_seats', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        hall_id: newSeats.hall_id,
-        rows: newSeats.rows,
-        seats: newSeats.seats,
-        seating: newSeats.seatingString,
-      }),
-    });
-   
-    if (!response.ok) {
-      throw new Error('Error adding seats');
-    }
-  
-    const data = await response.json();
-    setSeats(prevSeats => [...prevSeats, data]);
-  }
-
   return (
-    <HallsControlContext.Provider value={{ seats, fetchSeats, handleAddSeate }}>
+    <HallsControlContext.Provider value={{ seats, fetchSeats }}>
       {children}
     </HallsControlContext.Provider>
   ); 

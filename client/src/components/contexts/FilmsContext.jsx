@@ -9,7 +9,6 @@ export const FilmsProvider = ({children}) => {
   // Получаем все фильмы
   const [films, setFilms] = useState([]);
 
-  
   // Функция для получения всех фильмов с сервера
   const fetchFilms = async () => {
     const response = await fetch('http://localhost:3001/api/films');
@@ -25,34 +24,8 @@ export const FilmsProvider = ({children}) => {
     fetchFilms();
   }, []);
   
-  // Добавляем новый фильм
-  const handleAddFilm = async (formData) => {
-    const response = await fetch('http://localhost:3001/api/add_movie', { 
-      method: 'POST',
-      body: formData,
-    });
-  
-    if (!response.ok) {
-      throw new Error('Error adding film');
-    }
-  
-    const data = await response.json();
-    setFilms(prevFilms => [...prevFilms, data]);
-  };
-  
-  // Удаляем фильм
-  const handleDeleteClick = async (id) => {
-    const response = await fetch(`http://localhost:3001/api/delete_film/${id}`, {
-      method: 'DELETE',
-    });
-  
-    if (response.status === 204) {
-      setFilms(prevFilms => prevFilms.filter(film => film.id !== id)); // Удаляем фильм из prevFilms
-    } 
-  };
-
   return (
-    <FilmsContext.Provider value={{ films, handleAddFilm, handleDeleteClick }}>
+    <FilmsContext.Provider value={{ films }}>
       {children}
     </FilmsContext.Provider>
   );

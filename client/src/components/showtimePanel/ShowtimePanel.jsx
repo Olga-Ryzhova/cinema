@@ -1,28 +1,40 @@
+import { useState } from 'react';
+
+const days = [
+  { week: 'Пн', number: '31', today: true },
+  { week: 'Вт', number: '1' },
+  { week: 'Ср', number: '2' },
+  { week: 'Чт', number: '3' },
+  { week: 'Пт', number: '4' },
+  { week: 'Сб', number: '5', weekend: true },
+];
+
 const ShowtimePanel = () => {
+  const [activeDay, setActiveDay] = useState('31'); 
+
   return (
     <nav className="page-nav">
-    <a className="page-nav__day page-nav__day_today" href="#">
-      <span className="page-nav__day-week">Пн</span><span className="page-nav__day-number">31</span>
-    </a>
-    <a className="page-nav__day" href="#">
-      <span className="page-nav__day-week">Вт</span><span className="page-nav__day-number">1</span>
-    </a>
-    <a className="page-nav__day page-nav__day_chosen" href="#">
-      <span className="page-nav__day-week">Ср</span><span className="page-nav__day-number">2</span>
-    </a>
-    <a className="page-nav__day" href="#">
-      <span className="page-nav__day-week">Чт</span><span className="page-nav__day-number">3</span>
-    </a>
-    <a className="page-nav__day" href="#">
-      <span className="page-nav__day-week">Пт</span><span className="page-nav__day-number">4</span>
-    </a>
-    <a className="page-nav__day page-nav__day_weekend" href="#">
-      <span className="page-nav__day-week">Сб</span><span className="page-nav__day-number">5</span>
-    </a>
-    <a className="page-nav__day page-nav__day_next" href="#">
-    </a>
-  </nav>
-  )
-}
+      {days.map(({ week, number, today, weekend }) => {
+        let classNames = 'page-nav__day';
+        if (today) classNames += ' page-nav__day_today';
+        if (weekend) classNames += ' page-nav__day_weekend';
+        if (activeDay === number) classNames += ' page-nav__day_chosen';
+
+        return (
+          <div
+            key={number}
+            className={classNames}
+            onClick={() => setActiveDay(number)}
+          >
+            <span className="page-nav__day-week">{week}</span>
+            <span className="page-nav__day-number">{number}</span>
+          </div>
+        );
+      })}
+
+      <div className="page-nav__day page-nav__day_next" />
+    </nav>
+  );
+};
 
 export default ShowtimePanel;

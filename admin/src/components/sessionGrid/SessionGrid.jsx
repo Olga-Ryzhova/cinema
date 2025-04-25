@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import poster from '../../i/poster.png';
 import AddFilm from "../popups/AddFilm";
 import AddSeance from "../popups/AddSeance";
 import RemoveFilm from "../popups/RemoveFilm";
@@ -24,7 +23,6 @@ const SessionGrid = () => {
   const { halls } = useHalls(); // Контекст для залов
   const { films, handleDeleteClick } = useFilms(); // Контекст для фильмов
   const { seances, handleAddSeance, handleDeleteSeanceClick, getFilmColor, calculateSeanceStyle } = useSeance(); // Контекст для сеанса
-
 
   // Открытие и закрытие модальных окон для фильма
   const openModalIsFilm = () => setModalIsOpenFilm(true);
@@ -69,7 +67,8 @@ const SessionGrid = () => {
               const color = getFilmColor(index);
               return (
                 <li key={film.id} className="conf-step__movie" style={{ backgroundColor: color }}>
-                  <img className="conf-step__movie-poster" alt="poster" src={poster}/>
+                  <img className="conf-step__movie-poster" alt="poster" src={`http://localhost:3001${film.poster}`} />
+
                   <h3 className="conf-step__movie-title">{film.film}</h3>
                   <p className="conf-step__movie-duration">{film.duration} мин</p>
                 
@@ -130,7 +129,6 @@ const SessionGrid = () => {
             })}
           </ul>
         </div>
-
         <fieldset className="conf-step__buttons text-center">
           <button className="conf-step__button conf-step__button-regular">Отмена</button>
           <input type="submit" value="Сохранить" className="conf-step__button conf-step__button-accent"/>
