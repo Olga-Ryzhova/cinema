@@ -1,10 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useHallsControl } from '../contexts/HallsControlContext';
 import { Link } from 'react-router-dom';
 import { usePrice } from '../contexts/PricesContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SeatSelections = () => {
+  const navigate = useNavigate();
   const { seats } = useHallsControl(); 
   const { prices } = usePrice();
   const { film, hallName, seance } = useParams(); 
@@ -13,6 +14,16 @@ const SeatSelections = () => {
   const [selectedSeance, setSelectedSeance] = useState(null); 
   
   const selectedHall = seats.find((hall) => hall.hall_id === parseInt(hallName.replace('Зал ', '')));
+
+  // Проверка на наличие необходимых данных:
+  useEffect(() => {
+    if (!seats?.length || !prices?.length || !film || !hallName || !seance || !selectedHall) {
+      navigate('/');
+    }
+  }, [seats, prices, film, hallName, seance, selectedHall, navigate]);
+
+  // Пока данных нет — ничего не рендерим
+  if (!selectedHall) return null;
 
   const seating = selectedHall.seating;  
   const rows = selectedHall.rows; 
